@@ -1,0 +1,25 @@
+import nmap
+from vulners import VulnersApi
+
+def scan_network(target_ip):
+    """Scan a target IP address for open ports using Nmap."""
+   # Scan Common Ports
+    try:
+        scanner = nmap.PortScanner()
+        scanner.scan(target_ip, arguments='-p 1-1000')
+        return scanner[target_ip]['tcp'].keys()
+    except nmap.PortScannerError:
+        return []
+
+# Must Obtain API Key from Vulners website
+API_Key = ("Enter your api key here")
+
+def search_cve_info(cve_id):
+    """Search for information about a CVE (Common Vulnerabilities and Exposures) using Vulners API."""
+    try:
+        vulners_api = VulnersApi(api_key)
+        cve_info = vulners_api.cve(cve_id)
+        return cve_info
+    except Exception as e:
+        print(f"Error during CVE lookup: {e}")
+        return None
